@@ -83,9 +83,9 @@ public class RegisterActivity extends Activity implements AsyncResponse {
         SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
         sendPostReqAsyncTask.delegate = this;
 
-        sendPostReqAsyncTask.params.add(new BasicNameValuePair("name",  sName));
-        sendPostReqAsyncTask.params.add(new BasicNameValuePair("email", sEmail));
-        sendPostReqAsyncTask.params.add(new BasicNameValuePair("password", sPassword));
+        sendPostReqAsyncTask.params.put("name", sName);
+        sendPostReqAsyncTask.params.put("email", sEmail);
+        sendPostReqAsyncTask.params.put("password", sPassword);
 
         sendPostReqAsyncTask.execute(url);
     }
