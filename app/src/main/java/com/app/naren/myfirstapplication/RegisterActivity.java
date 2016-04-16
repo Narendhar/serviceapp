@@ -1,38 +1,11 @@
 package com.app.naren.myfirstapplication;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Naren on 4/12/2016.
@@ -43,7 +16,7 @@ public class RegisterActivity extends Activity implements AsyncResponse {
 
     // URL to get contacts JSON
     //private static String url = "http://dev.apiservice.com:8080/user";
-    private static String url = "http://4aebc177.ngrok.io/user";
+    private static String urlRegistration = "http://4aebc177.ngrok.io/user";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +60,6 @@ public class RegisterActivity extends Activity implements AsyncResponse {
         sendPostReqAsyncTask.params.put("email", sEmail);
         sendPostReqAsyncTask.params.put("password", sPassword);
 
-        sendPostReqAsyncTask.execute(url);
+        sendPostReqAsyncTask.execute(urlRegistration);
     }
 }
