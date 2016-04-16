@@ -26,32 +26,17 @@ import java.util.List;
 class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
 
     public AsyncResponse delegate=null;
+    public List<NameValuePair> params = new ArrayList<NameValuePair>();
 
     @Override
     protected String doInBackground(String... params) {
-        String paramUsername = params[0];
-        String paramPassword = params[1];
-        String paramEmail = params[2];
-
-        //System.out.println("*** doInBackground ** paramUsername " + paramUsername + " paramPassword :" + paramPassword+ " paramEmail :" + paramEmail);
 
         HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(params[3]);// replace with your url
+        HttpPost httpPost = new HttpPost(params[0]);// replace with your url
         httpPost.addHeader("Content-type", "application/x-www-form-urlencoded");
 
-        BasicNameValuePair usernameBasicNameValuePair = new BasicNameValuePair("name", paramUsername);  // Make your own key value pair
-        BasicNameValuePair passwordBasicNameValuePAir = new BasicNameValuePair("password", paramPassword);// make your own key value pair
-        BasicNameValuePair emailBasicNameValuePAir = new BasicNameValuePair("email", paramEmail);// make your own key value pair
-
-        // You can add more parameters like above
-
-        List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
-        nameValuePairList.add(usernameBasicNameValuePair);
-        nameValuePairList.add(passwordBasicNameValuePAir);
-        nameValuePairList.add(emailBasicNameValuePAir);
-
         try {
-            UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairList);
+            UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(this.params);
             httpPost.setEntity(urlEncodedFormEntity);
 
             try {

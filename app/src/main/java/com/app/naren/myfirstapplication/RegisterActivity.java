@@ -76,122 +76,17 @@ public class RegisterActivity extends Activity implements AsyncResponse {
 
     public void registerUser(View view) {
 
-        String s1=userName.getText().toString();
-        String s2=email.getText().toString();
-        String s3=password.getText().toString();
+        String sName=userName.getText().toString();
+        String sEmail=email.getText().toString();
+        String sPassword=password.getText().toString();
 
         SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
         sendPostReqAsyncTask.delegate = this;
-        sendPostReqAsyncTask.execute(s1,s2,s3,url);
 
-        /* Working code */
+        sendPostReqAsyncTask.params.add(new BasicNameValuePair("name",  sName));
+        sendPostReqAsyncTask.params.add(new BasicNameValuePair("email", sEmail));
+        sendPostReqAsyncTask.params.add(new BasicNameValuePair("password", sPassword));
 
-        //sendPostRequest(s1,s2,s3);
-
-        /*ServiceHandler sh = new ServiceHandler();
-
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-
-        EditText editName = (EditText) findViewById(R.id.reg_fullname);
-        String name = editName.getText().toString();
-
-        EditText editEmail = (EditText) findViewById(R.id.reg_email);
-        String email = editEmail.getText().toString();
-
-        EditText editPassword = (EditText) findViewById(R.id.reg_password);
-        String password = editPassword.getText().toString();
-
-        params.add(new BasicNameValuePair("name",
-                name));
-        params.add(new BasicNameValuePair("email",
-                email));
-        params.add(new BasicNameValuePair("password",
-                password));
-
-        // Making a request to url and getting response
-        String jsonStr = sh.makeServiceCall(url, ServiceHandler.POST, params);
-
-        Toast.makeText(getApplicationContext(), jsonStr,
-                Toast.LENGTH_SHORT).show();*/
+        sendPostReqAsyncTask.execute(url);
     }
-
-    /*private void sendPostRequest(String givenUsername, String givenPassword, String givenEmail) {
-
-        class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
-
-            @Override
-            protected String doInBackground(String... params) {
-                String paramUsername = params[0];
-                String paramPassword = params[1];
-                String paramEmail = params[2];
-
-                //System.out.println("*** doInBackground ** paramUsername " + paramUsername + " paramPassword :" + paramPassword+ " paramEmail :" + paramEmail);
-
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(url);// replace with your url
-                httpPost.addHeader("Content-type", "application/x-www-form-urlencoded");
-
-                BasicNameValuePair usernameBasicNameValuePair = new BasicNameValuePair("name", paramUsername);  // Make your own key value pair
-                BasicNameValuePair passwordBasicNameValuePAir = new BasicNameValuePair("password", paramPassword);// make your own key value pair
-                BasicNameValuePair emailBasicNameValuePAir = new BasicNameValuePair("email", paramEmail);// make your own key value pair
-
-                // You can add more parameters like above
-
-                List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
-                nameValuePairList.add(usernameBasicNameValuePair);
-                nameValuePairList.add(passwordBasicNameValuePAir);
-                nameValuePairList.add(emailBasicNameValuePAir);
-
-                try {
-                    UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairList);
-                    System.out.println(urlEncodedFormEntity);
-                    httpPost.setEntity(urlEncodedFormEntity);
-
-                    try {
-                        HttpResponse httpResponse = httpClient.execute(httpPost);
-                        InputStream inputStream = httpResponse.getEntity().getContent();
-                        InputStreamReader inputStreamReader = new InputStreamReader(
-                                inputStream);
-                        BufferedReader bufferedReader = new BufferedReader(
-                                inputStreamReader);
-                        StringBuilder stringBuilder = new StringBuilder();
-                        String bufferedStrChunk = null;
-                        while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
-                            stringBuilder.append(bufferedStrChunk);
-                        }
-
-                        return stringBuilder.toString();
-
-                    } catch (ClientProtocolException cpe) {
-                        System.out
-                                .println("First Exception coz of HttpResponese :"
-                                        + cpe);
-                        cpe.printStackTrace();
-                    } catch (IOException ioe) {
-                        System.out
-                                .println("Second Exception coz of HttpResponse :"
-                                        + ioe);
-                        ioe.printStackTrace();
-                    }
-
-                } catch (UnsupportedEncodingException uee) {
-                    System.out
-                            .println("An Exception given because of UrlEncodedFormEntity argument :"
-                                    + uee);
-                    uee.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                super.onPostExecute(result);
-                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-            }
-        }
-        SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
-        sendPostReqAsyncTask.execute(givenUsername, givenPassword, givenEmail);
-
-    }*/
-
 }
