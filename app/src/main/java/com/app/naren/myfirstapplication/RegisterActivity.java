@@ -14,10 +14,6 @@ public class RegisterActivity extends Activity implements AsyncResponse {
 
     EditText password,userName,email;
 
-    // URL to get contacts JSON
-    //private static String url = "http://dev.apiservice.com:8080/user";
-    private static String urlRegistration = "http://4aebc177.ngrok.io/user";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +56,6 @@ public class RegisterActivity extends Activity implements AsyncResponse {
         sendPostReqAsyncTask.params.put("email", sEmail);
         sendPostReqAsyncTask.params.put("password", sPassword);
 
-        sendPostReqAsyncTask.execute(urlRegistration);
+        sendPostReqAsyncTask.execute(Constants.service_baseUrl + Constants.service_url_user_registration, "POST");
     }
 }

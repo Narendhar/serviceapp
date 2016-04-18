@@ -1,9 +1,11 @@
 package com.app.naren.myfirstapplication;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -29,15 +31,29 @@ class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
         try{
             URL url = new URL(params[0]);
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-            connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
-            OutputStream os = connection.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(os, "UTF-8"));
-            writer.write(getQuery(this.params));
-            writer.flush();
-            writer.close();
-            os.close();
+
+            if(params[1] == "POST") {
+                connection.setDoOutput(true);
+                connection.setRequestMethod(params[1]);
+                OutputStream os = connection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getQuery(this.params));
+                writer.flush();
+                writer.close();
+                os.close();
+            }
+            else if(params[1] == "GET") {
+                InputStream in = connection.getInputStream();
+                InputStreamReader isw = new InputStreamReader(in);
+
+                int data = isw.read();
+                while (data != -1) {
+                    char current = (char) data;
+                    response+= current;
+                    data = isw.read();
+                }
+            }
             int responseCode=connection.getResponseCode();
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 String line;

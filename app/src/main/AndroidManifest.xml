@@ -37,6 +37,7 @@
         </activity>
         -->
 
+        <!-- for login & registration
         <activity android:name="com.app.naren.myfirstapplication.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,6 +48,18 @@
 
         <activity android:name="com.app.naren.myfirstapplication.RegisterActivity"
             android:label="Register New Account"></activity>
+        -->
+
+        <activity android:name="com.app.naren.myfirstapplication.UserActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.app.naren.myfirstapplication.SingleUserActivity"
+            android:label="Displays single user"></activity>
     </application>
 
 </manifest>
