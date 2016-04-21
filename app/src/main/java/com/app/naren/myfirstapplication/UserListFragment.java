@@ -2,6 +2,7 @@ package com.app.naren.myfirstapplication;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,11 @@ public class UserListFragment extends Fragment implements AsyncResponse {
 
     // Hashmap for ListView
     ArrayList<HashMap<String, String>> userList;
+    ArrayList<String> userNameList = new ArrayList<String>();
+
+    ArrayAdapter<String> adapter;
+    ListView userListView;
+    ViewGroup viewGroup;
 
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
@@ -52,16 +58,18 @@ public class UserListFragment extends Fragment implements AsyncResponse {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        /*SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
+        // Showing progress dialog
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Please wait...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
         sendPostReqAsyncTask.delegate = this;
-        sendPostReqAsyncTask.execute(Constants.service_baseUrl + Constants.service_url_user_list, "GET");*/
+        sendPostReqAsyncTask.execute(Constants.service_baseUrl + Constants.service_url_user_list, "GET");
 
-        ViewGroup viewGroup = (ViewGroup)inflater.inflate(R.layout.user_listfragment, container, false);
-
-        ListView userListView = (ListView) viewGroup.findViewById(R.id.userlist);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,userNames);
-        userListView.setAdapter(adapter);
+        viewGroup = (ViewGroup)inflater.inflate(R.layout.user_listfragment, container, false);
+        userListView = (ListView) viewGroup.findViewById(R.id.userlist);
 
         return viewGroup;
     }
@@ -94,12 +102,24 @@ public class UserListFragment extends Fragment implements AsyncResponse {
                     user.put(TAG_CREATED_AT, created_at);
 
                     // adding contact to contact list
-                    userList.add(user);
+                    //userList.add(user);
+
+                    userNameList.add(name);
                 }
+
+                if (pDialog.isShowing())
+                    pDialog.dismiss();
+
+                adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, userNameList);
+                userListView.setAdapter(adapter);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         } else {
+            if (pDialog.isShowing())
+                pDialog.dismiss();
             Log.e("ServiceHandler", "Couldn't get any data from the url");
         }
     }
