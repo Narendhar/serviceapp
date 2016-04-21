@@ -50,6 +50,7 @@
             android:label="Register New Account"></activity>
         -->
 
+        <!-- for webservice user's list view
         <activity android:name="com.app.naren.myfirstapplication.UserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,6 +61,14 @@
 
         <activity android:name="com.app.naren.myfirstapplication.SingleUserActivity"
             android:label="Displays single user"></activity>
-    </application>
+        -->
 
+        <activity android:name="com.app.naren.myfirstapplication.UserMainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>
