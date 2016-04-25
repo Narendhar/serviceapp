@@ -70,5 +70,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.app.naren.myfirstapplication.UserDetailActivity"
+            android:label="Displays single user"></activity>
     </application>
 </manifest>

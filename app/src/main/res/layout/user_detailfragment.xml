@@ -1,27 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/user_name"
-        android:padding="10dp"
-        android:background="@android:color/black"
-        android:textColor="@android:color/white"
-        android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:id="@+id/title"
-        />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/title"
-        android:padding="10dp"
+        android:layout_height="wrap_content"
         android:background="@android:color/black"
         android:textColor="@android:color/white"
         android:gravity="center"
         android:id="@+id/user_name"
         android:contentDescription="@string/app_name"
-        />
+        android:text="User's Name"
+        android:layout_marginTop="20dp"
+        android:padding="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:id="@+id/user_email"
+        android:contentDescription="@string/app_name"
+        android:text="User's Email"
+        android:layout_below="@+id/user_name"
+        android:layout_marginTop="20dp"
+        android:padding="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:id="@+id/user_created_at"
+        android:contentDescription="@string/app_name"
+        android:text="User Created Time"
+        android:layout_below="@+id/user_email"
+        android:layout_marginTop="20dp"
+        android:padding="20dp" />
 </RelativeLayout>

@@ -1,29 +1,33 @@
 package com.app.naren.myfirstapplication;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
  * Created by Naren on 4/20/2016.
  */
-public class UserListFragment extends Fragment implements AsyncResponse {
+public class UserListFragment extends Fragment implements AsyncResponse, AdapterView.OnItemClickListener {
 
     // Hashmap for ListView
-    ArrayList<HashMap<String, String>> userList;
+    ArrayList<HashMap<String, String>> userList = new  ArrayList<HashMap<String, String>>();
     ArrayList<String> userNameList = new ArrayList<String>();
 
     ArrayAdapter<String> adapter;
@@ -36,6 +40,7 @@ public class UserListFragment extends Fragment implements AsyncResponse {
     private static final String TAG_USERS = "users";
     private static final String TAG_CREATED_AT = "created_at";
 
+    private HandleCallBack handleCallBack;
 
     // contacts JSONArray
     JSONArray users = null;
@@ -43,6 +48,14 @@ public class UserListFragment extends Fragment implements AsyncResponse {
     private ProgressDialog pDialog;
 
     private String[] userNames = new String[] {"User 1", "User 2", "User 3"};
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof HandleCallBack) {
+            handleCallBack = (HandleCallBack)context;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +74,11 @@ public class UserListFragment extends Fragment implements AsyncResponse {
         userListView = (ListView) viewGroup.findViewById(R.id.userlist);
 
         return viewGroup;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        handleCallBack.loadUserDetail(userList.get(position));
     }
 
     public void processFinish(String output){
@@ -91,7 +109,7 @@ public class UserListFragment extends Fragment implements AsyncResponse {
                     user.put(TAG_CREATED_AT, created_at);
 
                     // adding contact to contact list
-                    //userList.add(user);
+                    userList.add(user);
 
                     userNameList.add(name);
                 }
@@ -100,6 +118,7 @@ public class UserListFragment extends Fragment implements AsyncResponse {
                     pDialog.dismiss();
 
                 adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, userNameList);
+                userListView.setOnItemClickListener(this);
                 userListView.setAdapter(adapter);
 
             } catch (JSONException e) {
