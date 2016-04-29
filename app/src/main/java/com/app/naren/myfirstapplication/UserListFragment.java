@@ -53,6 +53,8 @@ public class UserListFragment extends Fragment implements AsyncResponse, Adapter
     private static final String SELECTED_POSITION = "selection";
     private int position = -1;
 
+    Bundle savedObj;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -89,8 +91,9 @@ public class UserListFragment extends Fragment implements AsyncResponse, Adapter
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            position = savedInstanceState.getInt(SELECTED_POSITION);
-            userListView.setItemChecked(position, true);
+            savedObj = savedInstanceState;
+            //position = savedInstanceState.getInt(SELECTED_POSITION);
+            //userListView.setItemChecked(position, true);
             //handleCallBack.loadUserDetail(userList.get(position));
         }
     }
@@ -156,6 +159,13 @@ public class UserListFragment extends Fragment implements AsyncResponse, Adapter
 
                 /* By default item 0 is selected */
                 // userListView.setItemChecked(0, true);
+                if ( savedObj != null ) {
+                    position = savedObj.getInt(SELECTED_POSITION);
+                    userListView.setItemChecked(position, true);
+                    if(position != -1) {
+                        handleCallBack.loadUserDetail(userList.get(position));
+                    }
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
