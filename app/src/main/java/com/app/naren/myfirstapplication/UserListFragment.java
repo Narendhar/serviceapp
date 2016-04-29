@@ -1,7 +1,10 @@
 package com.app.naren.myfirstapplication;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,14 +14,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -49,6 +50,9 @@ public class UserListFragment extends Fragment implements AsyncResponse, Adapter
 
     private String[] userNames = new String[] {"User 1", "User 2", "User 3"};
 
+    private static final String SELECTED_POSITION = "selection";
+    private int position = -1;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -58,6 +62,11 @@ public class UserListFragment extends Fragment implements AsyncResponse, Adapter
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Showing progress dialog
@@ -77,8 +86,25 @@ public class UserListFragment extends Fragment implements AsyncResponse, Adapter
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            position = savedInstanceState.getInt(SELECTED_POSITION);
+            userListView.setItemChecked(position, true);
+            //handleCallBack.loadUserDetail(userList.get(position));
+        }
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        this.position = position;
         handleCallBack.loadUserDetail(userList.get(position));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(SELECTED_POSITION, position);
+        super.onSaveInstanceState(outState);
     }
 
     public void processFinish(String output){
@@ -117,9 +143,19 @@ public class UserListFragment extends Fragment implements AsyncResponse, Adapter
                 if (pDialog.isShowing())
                     pDialog.dismiss();
 
+                /* for simple list item 1 - code
                 adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, userNameList);
                 userListView.setOnItemClickListener(this);
+                userListView.setAdapter(adapter);*/
+
+                /* for simple list item activated 1 and programatic selection of list item */
+                userListView.setOnItemClickListener(this);
+                userListView.setChoiceMode(userListView.CHOICE_MODE_SINGLE);
+                adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, userNameList);
                 userListView.setAdapter(adapter);
+
+                /* By default item 0 is selected */
+                // userListView.setItemChecked(0, true);
 
             } catch (JSONException e) {
                 e.printStackTrace();
